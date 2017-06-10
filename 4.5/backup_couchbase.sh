@@ -25,22 +25,21 @@ set -e
 SERVER_URI="couchbase://${SERVER_IP}"
 
 sync_s3_up () {
-  AWS_DEFAULT_PROFILE=${AWS_PROFILE} \
-                     aws --region=${AWS_REGION} \
-                     s3 sync  \
-                     ${BACKUP_PATH} \
-                     s3://${S3_BUCKET}/${BACKUP_PATH}
+  aws --region=${AWS_REGION} \
+    s3 sync  \
+    ${BACKUP_PATH} \
+    s3://${S3_BUCKET}/${BACKUP_PATH}
 }
 
 sync_s3_down () {
-  AWS_DEFAULT_PROFILE=${AWS_PROFILE} \
-                     aws --region=${AWS_REGION} \
-                     s3 sync \
-                     s3://${S3_BUCKET}/${BACKUP_PATH} \
-                     ${RECOVERY_PATH}
+  aws --region=${AWS_REGION} \
+    s3 sync \
+    s3://${S3_BUCKET}/${BACKUP_PATH} \
+    ${RECOVERY_PATH}
 }
 
 run_backup () {
+  mkdir -p ${BACKUP_REPO}
   cbbackupmgr backup --archive ${BACKUP_PATH} --repo ${BACKUP_REPO} \
               --host ${SERVER_URI} \
               --username ${SERVER_USER}\

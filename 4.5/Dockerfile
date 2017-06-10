@@ -1,5 +1,5 @@
 FROM couchbase
-MAINTAINER dmytro.kovalov@gmail.com
+MAINTAINER Alberto Sbeghen - Kindertap
 
 RUN \
   apt-get update \
