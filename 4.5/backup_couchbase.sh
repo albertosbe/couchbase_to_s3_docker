@@ -41,15 +41,25 @@ sync_s3_down () {
 }
 
 run_backup () {
-  mkdir -p ${BACKUP_REPO}
+  mkdir -p ${BACKUP_PATH}
   cbbackup http://${SERVER_IP} ${BACKUP_PATH} \
               -m full \
               -u ${SERVER_USER} \
               -p ${SERVER_PASSWORD}
 }
 
+compress_backup () {
+  OWD="$(pwd)"
+  cd "${BACKUP_PATH}"
+  for dir in */; do
+    tar czf "$(basename "$dir").tar.gz" "$dir" && rm -rf "$dir"
+  done
+  cd "$OWD"
+}
+
 do_backup () {
   run_backup
+  compress_backup
   sync_s3_up
 }
 
