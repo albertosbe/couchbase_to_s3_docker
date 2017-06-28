@@ -28,7 +28,7 @@ sync_s3_up () {
   aws --region=${AWS_REGION} \
     s3 sync  \
     ${BACKUP_PATH} \
-    s3://${S3_BUCKET}/${date +%Y-%m-%dT%H:%M:%S%z}/${BACKUP_PATH}
+    s3://${S3_BUCKET}/$(date +%Y-%m-%dT%H:%M:%S%z)/${BACKUP_PATH}
 }
 
 sync_s3_down () {
