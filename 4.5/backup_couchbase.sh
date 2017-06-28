@@ -3,7 +3,7 @@
 # Backup script for  Couchbase 4.5 and up
 #
 
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/opt/couchbase/bin
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/opt/couchbase/bin
 
 set -e
 
@@ -22,13 +22,13 @@ set -e
 # ========================================================================================
 # END of configuration
 # ========================================================================================
-SERVER_URI="couchbase://${SERVER_IP}"
 
 sync_s3_up () {
   aws --region=${AWS_REGION} \
-    s3 sync  \
+    s3 sync \
+    --storage-class STANDARD_IA \
     ${BACKUP_PATH} \
-    s3://${S3_BUCKET}/$(date +%Y-%m-%dT%H:%M:%S%z)/${BACKUP_PATH}
+    s3://${S3_BUCKET}/$(date +%Y-%m-%dT%H:%M:%S%z)${BACKUP_PATH}
 }
 
 sync_s3_down () {
