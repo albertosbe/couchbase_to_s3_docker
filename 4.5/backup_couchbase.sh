@@ -57,10 +57,15 @@ compress_backup () {
   cd "$OWD"
 }
 
+delete_backup () {
+  rm -rf ${BACKUP_PATH}/*
+}
+
 do_backup () {
   run_backup
   compress_backup
   sync_s3_up
+  delete_backup
 }
 
 do_restore () {
