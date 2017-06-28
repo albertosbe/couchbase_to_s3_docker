@@ -28,7 +28,7 @@ sync_s3_up () {
   aws --region=${AWS_REGION} \
     s3 sync  \
     ${BACKUP_PATH} \
-    s3://${S3_BUCKET}/${BACKUP_PATH}
+    s3://${S3_BUCKET}/${date +%Y-%m-%dT%H:%M:%S%z}/${BACKUP_PATH}
 }
 
 sync_s3_down () {
@@ -40,24 +40,14 @@ sync_s3_down () {
 
 run_backup () {
   mkdir -p ${BACKUP_REPO}
-  cbbackupmgr backup --archive ${BACKUP_PATH} --repo ${BACKUP_REPO} \
-              --host ${SERVER_URI} \
-              --username ${SERVER_USER}\
-              --password ${SERVER_PASSWORD}
-}
-
-merge_backup () {
-  cbbackupmgr merge --archive ${BACKUP_PATH} --repo ${BACKUP_REPO}
-}
-
-configure () {
-  cbbackupmgr config --archive ${BACKUP_PATH} --repo ${BACKUP_REPO}
+  cbbackup couchbase://${SERVER_URI} ${BACKUP_PATH} \
+              -m full \
+              -u ${SERVER_USER} \
+              -p ${SERVER_PASSWORD}
 }
 
 do_backup () {
-  configure
   run_backup
-  merge_backup
   sync_s3_up
 }
 

@@ -5,9 +5,7 @@
 Docker container to run Couchbase backup and copy it to AWS S3 bucket.
 
 Version 4.5 is at the time of writing Entrprise editions and contains
-new backup binary `cbbackupmgr`, which is missing in pre 4.5
-versions. Backup script in version 4.0.0 uses previous backup binary
-`cbbackup`.
+backup binary `cbbackup`.
 
 ## Docker image
 
@@ -90,6 +88,8 @@ environment:
 - S3_BUCKET - bucket name for the backup.
 - SERVER_USER - Couchbase server user connecting. Default is Administrator.
 - SERVER_PASSWORD - Password for the backup user on the Couchbase server.
+- AWS_ACCESS_KEY_ID - AWS user access key, or IAM role access key with s3 writing permissions
+- AWS_SECRET_ACCESS_KEY - AWS secret access key, or IAM role secret key with s3 writing permissions
 
 ## Logging
 
