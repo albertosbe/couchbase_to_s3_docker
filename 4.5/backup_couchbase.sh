@@ -40,7 +40,7 @@ sync_s3_down () {
 
 run_backup () {
   mkdir -p ${BACKUP_REPO}
-  cbbackup couchbase://${SERVER_IP} ${BACKUP_PATH} \
+  cbbackup http://${SERVER_IP} ${BACKUP_PATH} \
               -m full \
               -u ${SERVER_USER} \
               -p ${SERVER_PASSWORD}
