@@ -24,17 +24,19 @@ set -e
 # ========================================================================================
 
 sync_s3_up () {
+  bpath="$(echo $BACKUP_PATH | sed 's/^\///')"
   aws --region=${AWS_REGION} \
     s3 sync \
     --storage-class STANDARD_IA \
-    ${BACKUP_PATH} \
-    s3://${S3_BUCKET}/$(date +%Y-%m-%dT%H:%M:%S%z)${BACKUP_PATH}
+    /${bpath} \
+    s3://${S3_BUCKET}/${bpath}
 }
 
 sync_s3_down () {
+  bpath="$(echo $BACKUP_PATH | sed 's/^\///')"
   aws --region=${AWS_REGION} \
     s3 sync \
-    s3://${S3_BUCKET}/${BACKUP_PATH} \
+    s3://${S3_BUCKET}/${bpath} \
     ${RECOVERY_PATH}
 }
 
